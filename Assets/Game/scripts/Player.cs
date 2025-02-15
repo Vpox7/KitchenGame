@@ -1,54 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]private float MovementSpeed = 7f;
+    [SerializeField] private PlayerInputs playerInput;
     private bool isWalking;
+  private void Update()
+  {
+       Vector2 InputVector=playerInput.GetMovementVectorNormalized();   
+        Vector3 MoveDir=new Vector3(InputVector.x,0,InputVector.y);
+        transform.position += MoveDir*Time.deltaTime*MovementSpeed;
 
+        isWalking=MoveDir!=Vector3.zero;
 
-    [SerializeField] private float MovementSpeed = 0;
-    private void Update()
-    {
-        Vector2 NewInput = new Vector2(0, 0);
-        if (Input.GetKey(KeyCode.W))
-        {
-            NewInput.y += 1;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            NewInput.y -= 1;
-        }
+        float rotationspeed = 9f;
+        transform.forward=Vector3.Slerp(transform.forward,MoveDir, Time.deltaTime*rotationspeed); 
 
-        if (Input.GetKey(KeyCode.D))
-        {
-            NewInput.x += 1;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            NewInput.x -= 1;
-        }
-        NewInput = NewInput.normalized;
-        Vector3 NewDir = new Vector3(NewInput.x, 0, NewInput.y);
-
-        
-        transform.position += NewDir * MovementSpeed * Time.deltaTime;
-       
-
-       isWalking = NewDir != Vector3.zero;
-
-        float RoatationSpeed = 10f;
-        transform.forward = Vector3.Slerp(transform.forward, NewDir, Time.deltaTime * RoatationSpeed);
-
-
-    }
-
+  }
 
     public bool IsWalking()
     {
         return isWalking;
     }
-
+    
+        
+            
 }
- 

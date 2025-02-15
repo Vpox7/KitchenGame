@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
+    private Animator animator;
     [SerializeField] private Player Player;
-   private Animator Animator;
     private const string Is_Walking = "IsWalking";
-    private void Wakeup()
-    {
-        Animator.GetComponent<Animator>();
+    
 
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
     }
     private void Update()
     {
-        Animator.SetBool(Is_Walking, true);
+        animator.SetBool(Is_Walking,Player.IsWalking());
     }
-    
-    
 }
